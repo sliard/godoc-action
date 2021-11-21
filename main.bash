@@ -8,6 +8,8 @@ MODULE_ROOT="$(go list -m)"
 REPO_NAME="$(basename $(echo $GITHUB_REPOSITORY))"
 PR_NUMBER="$(echo $GITHUB_REF | sed 's#refs/pull/\(.*\)/.*#\1#')"
 
+echo "base dir : $GOPATH/src/github.com/$GITHUB_REPOSITORY"
+
 mkdir -p "$GOPATH/src/github.com/$GITHUB_REPOSITORY"
 cp -r * "$GOPATH/src/github.com/$GITHUB_REPOSITORY"
 (cd /tmp && godoc -http localhost:8080 &)
@@ -18,6 +20,8 @@ for (( ; ; )); do
     break
   fi
 done
+
+echo "Doc gen OK !"
 
 git checkout origin/gh-pages || git checkout -b gh-pages
 
